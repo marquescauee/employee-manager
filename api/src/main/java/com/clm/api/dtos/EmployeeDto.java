@@ -6,12 +6,12 @@ import lombok.Data;
 @Data
 public class EmployeeDto {
     
-    @NotBlank
+    @NotBlank(message = "First name cannot be empty")
     private String firstName;
 
-    @NotBlank
+    @NotBlank(message = "Last name cannot be empty")
     private String lastName;
 
-    @NotBlank
+    @NotBlank(message = "email cannot be empty")
     private String email;
 }
