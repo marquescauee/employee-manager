@@ -1,6 +1,8 @@
 package com.clm.api.services;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
@@ -29,6 +31,17 @@ public class EmployeeServiceImpl implements IEmployeeService {
     @Override
     public List<Employee> getAllEmployess() {
         return employeeRepository.findAll();
+    }
+
+    @Override
+    public Optional<Employee> findById(UUID id) {
+        return employeeRepository.findById(id);
+    }
+
+    @Override
+    public void deleteEmployee(UUID id) {
+        employeeRepository.deleteById(id);
+        
     }
     
 }
