@@ -36,3 +36,22 @@
     transform: rotate(360deg);
   }
 }
+
+.saveEmployeeInputs {
+  height: 2.5rem;
+  width: 24rem;
+  border-width: 1px;
+  margin-top: 0.5rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
+
+.errorBorder {
+  height: 2.5rem;
+  width: 24rem;
+  border-width: 1px;
+  margin-top: 0.5rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  border-color: rgb(239 68 68);
+}
