@@ -1,9 +1,12 @@
 package com.clm.api.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,7 +29,7 @@ public class EmployeeController {
         this.employeeService = employeeService;
     }
 
-    @PostMapping("/employees")
+    @PostMapping("/addEmployee")
     public ResponseEntity<Object> saveEmployee(@RequestBody @Valid EmployeeDto employeeDto) {
         
         if(employeeService.existsByEmail(employeeDto.getEmail())) {
@@ -38,5 +41,10 @@ public class EmployeeController {
         BeanUtils.copyProperties(employeeDto, employee);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(employeeService.saveEmployee(employee));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Employee>> getAllEmployees() {
+        return ResponseEntity.status(HttpStatus.OK).body(employeeService.getAllEmployess());
     }
 }

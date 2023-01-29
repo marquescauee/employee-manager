@@ -1,5 +1,7 @@
 package com.clm.api.services;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.clm.api.models.Employee;
@@ -22,6 +24,11 @@ public class EmployeeServiceImpl implements IEmployeeService {
     @Override
     public Employee saveEmployee(Employee employee) {
         return employeeRepository.save(employee);
+    }
+
+    @Override
+    public List<Employee> getAllEmployess() {
+        return employeeRepository.findAll();
     }
     
 }

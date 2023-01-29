@@ -1,9 +1,9 @@
-import axios, { Axios } from 'axios';
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 import EmployeeService from '../services/EmployeeService';
 
 const AddEmployee = () => {
-
+    const navigate = useNavigate();
     const [errors, setErrors] = useState([]);
     const [statusCode, setStatusCode] = useState(0);
 
@@ -68,38 +68,43 @@ const AddEmployee = () => {
     }
 
     return (
-        <div className='flex max-w-2xl mx-auto shadow border-b mt-6'>
-            <div className='px-8 py-8'>
+        <>
+            <div className='flex max-w-2xl mx-auto shadow border-b mt-6'>
+                <div className='px-8 py-8'>
 
-                {statusCode === 400 && <p className='text-center mb-7 text-red-600 font-semibold bg-red-100 rounded p-2'>Invalid Credentials. Try again!</p>}
+                    {statusCode === 400 && <p className='text-center mb-7 text-red-600 font-semibold bg-red-100 rounded p-2'>Invalid Credentials. Try again!</p>}
 
-                {statusCode === 201 && <p className='text-center mb-7 text-green-600 font-semibold bg-green-100 rounded p-2'>Employee created Succesfully!</p>}
+                    {statusCode === 201 && <p className='text-center mb-7 text-green-600 font-semibold bg-green-100 rounded p-2'>Employee created Succesfully!</p>}
 
-                <div className='font-thin text-2xl tracking-wider'>
-                    <h1>Add new Employee</h1>
-                </div>
-                <div className='items-center justify-center h-14 w-full my-4'>
-                    <label className='block text-gray-600 text-sm font-normal'>First Name:</label>
+                    <div className='font-thin text-2xl tracking-wider'>
+                        <h1>Add new Employee</h1>
+                    </div>
+                    <div className='items-center justify-center h-14 w-full my-4'>
+                        <label className='block text-gray-600 text-sm font-normal'>First Name:</label>
 
-                    <input value={employee.firstName} name='firstName' onChange={(e) => handleChange(e)} type='text' className={errors !== null && errors.includes('First name cannot be empty') ? 'errorBorder' : 'saveEmployeeInputs'}></input>
-                </div>
+                        <input value={employee.firstName} name='firstName' onChange={(e) => handleChange(e)} type='text' className={errors !== null && errors.includes('First name cannot be empty') ? 'errorBorder' : 'saveEmployeeInputs'}></input>
+                    </div>
 
-                <div className='items-center justify-center h-14 w-full my-4'>
-                    <label className='block text-gray-600 text-sm font-normal'>Last Name:</label>
-                    <input value={employee.lastName} type='text' name='lastName' onChange={(e) => handleChange(e)} className={errors !== null && errors.includes('Last name cannot be empty') ? 'errorBorder' : 'saveEmployeeInputs'}></input>
-                </div>
+                    <div className='items-center justify-center h-14 w-full my-4'>
+                        <label className='block text-gray-600 text-sm font-normal'>Last Name:</label>
+                        <input value={employee.lastName} type='text' name='lastName' onChange={(e) => handleChange(e)} className={errors !== null && errors.includes('Last name cannot be empty') ? 'errorBorder' : 'saveEmployeeInputs'}></input>
+                    </div>
 
-                <div className='items-center justify-center h-14 w-full my-4'>
-                    <label className='block text-gray-600 text-sm font-normal'>Email:</label>
-                    <input value={employee.email} type='email' name='email' onChange={(e) => handleChange(e)} className={errors !== null && errors.includes('email cannot be empty') ? 'errorBorder' : 'saveEmployeeInputs'}></input>
-                </div>
+                    <div className='items-center justify-center h-14 w-full my-4'>
+                        <label className='block text-gray-600 text-sm font-normal'>Email:</label>
+                        <input value={employee.email} type='email' name='email' onChange={(e) => handleChange(e)} className={errors !== null && errors.includes('email cannot be empty') ? 'errorBorder' : 'saveEmployeeInputs'}></input>
+                    </div>
 
-                <div className='items-center justify-center h-14 w-full my-4 space-x-4 pt-4'>
-                    <button onClick={(e) => saveEmployee(e)} className='rounded text-white font-semibold bg-green-400 py-2 px-6 hover:bg-green-500'>Save</button>
-                    <button className='rounded text-white font-semibold bg-red-400 py-2 px-6 hover:bg-red-500'>Cancel</button>
+                    <div className='items-center justify-center h-14 w-full my-4 space-x-4 pt-4'>
+                        <button onClick={(e) => saveEmployee(e)} className='rounded text-white font-semibold bg-green-400 py-2 px-6 hover:bg-green-500'>Save</button>
+                        <button className='rounded text-white font-semibold bg-red-400 py-2 px-6 hover:bg-red-500'>Cancel</button>
+                    </div>
                 </div>
             </div>
-        </div>
+            <div className='h-12 max-w-2xl mx-auto text-right mt-6'>
+                <button onClick={() => navigate("/")} className='rounded bg-slate-600 text-white px-6 py-2 font-semibold'>Back to home</button>
+            </div>
+        </>
     )
 }
 
