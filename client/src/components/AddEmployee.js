@@ -78,7 +78,7 @@ const AddEmployee = () => {
 
     return (
         <>
-            <div className='flex max-w-2xl mx-auto shadow border-b mt-6'>
+            <div className='flex max-w-2xl mx-auto shadow border-b mt-6 justify-center'>
                 <div className='px-8 py-8'>
 
                     {statusCode === 400 && <p className='text-center mb-7 text-red-600 font-semibold bg-red-100 rounded p-2'>Invalid Credentials. Try again!</p>}
