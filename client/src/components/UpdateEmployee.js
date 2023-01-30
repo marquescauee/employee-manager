@@ -1,22 +1,20 @@
 import React, { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import EmployeeService from '../services/EmployeeService';
 
-const AddEmployee = () => {
+const UpdateEmployee = () => {
 
-    //UseNavigate
     const navigate = useNavigate();
-    
-    //UseStates
-    const [errors, setErrors] = useState([]);
-    const [statusCode, setStatusCode] = useState(0);
-
+    const {id} = useParams();
     const [employee, setEmployee] = useState({
-        employeeId: '',
+        employeeId: id,
         firstName: '',
         lastName: '',
         email: '',
     });
+
+    const [errors, setErrors] = useState([]);
+    const [statusCode, setStatusCode] = useState(0);
 
     //Link inputs to states
     const handleChange = (e) => {
@@ -26,9 +24,8 @@ const AddEmployee = () => {
         setEmployee({ ...employee, [name]: value })
     };
 
-    //Save Employee
-    const saveEmployee = async (e) => {
-
+    //Function to update Employee
+    const updateEmployee = async (e) => {
         e.preventDefault();
 
         try {
@@ -36,11 +33,9 @@ const AddEmployee = () => {
                 return prevElement.splice(0, prevElement.length);
             });
 
-            await EmployeeService.saveEmployee(employee);
+            await EmployeeService.updateEmployee(id, employee);
 
             setStatusCode(201);
-
-            clearFields();
 
             setTimeout(() => {
                 navigate("/");
@@ -64,17 +59,20 @@ const AddEmployee = () => {
         } 
     }
 
-    //Clear fields after saving successfully
-    const clearFields = () => {
-        let tempEmployee = employee;
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await EmployeeService.getEmployee(id);
 
-        tempEmployee.email = '';
-        tempEmployee.firstName = '';
-        tempEmployee.lastName = '';
-        tempEmployee.employeeId = '';
+                setEmployee(response.data);
 
-        setEmployee({ ...employee, tempEmployee });
-    }
+            } catch(err) {
+                console.log(err);
+            }
+        };
+
+        fetchData();
+    }, [])
 
     return (
         <>
@@ -83,10 +81,10 @@ const AddEmployee = () => {
 
                     {statusCode === 400 && <p className='text-center mb-7 text-red-600 font-semibold bg-red-100 rounded p-2'>Invalid Credentials. Try again!</p>}
 
-                    {statusCode === 201 && <p className='text-center mb-7 text-green-600 font-semibold bg-green-100 rounded p-2'>Employee created Succesfully!</p>}
+                    {statusCode === 201 && <p className='text-center mb-7 text-green-600 font-semibold bg-green-100 rounded p-2'>Employee updated Succesfully!</p>}
 
                     <div className='font-thin text-2xl tracking-wider'>
-                        <h1>Add new Employee</h1>
+                        <h1>Update Employee</h1>
                     </div>
                     <div className='items-center justify-center h-14 w-full my-4'>
                         <label className='block text-gray-600 text-sm font-normal'>First Name:</label>
@@ -111,16 +109,13 @@ const AddEmployee = () => {
                     {errors !== null && errors.includes('email cannot be empty') && <p className='text-red-600 font-semibold text-sm'>Email cannot be empty.</p>}
 
                     <div className='items-center justify-center h-14 w-full my-4 space-x-4 pt-4'>
-                        <button onClick={(e) => saveEmployee(e)} className='rounded text-white font-semibold bg-green-400 py-2 px-6 hover:bg-green-500'>Save</button>
-                        <button onClick={clearFields} className='rounded text-white font-semibold bg-red-400 py-2 px-6 hover:bg-red-500'>Clear</button>
+                        <button onClick={(e) => updateEmployee(e)} className='rounded text-white font-semibold bg-green-400 py-2 px-6 hover:bg-green-500'>Update</button>
+                        <button onClick={() => navigate("/")}  className='rounded text-white font-semibold bg-red-400 py-2 px-6 hover:bg-red-500'>Cancel</button>
                     </div>
                 </div>
-            </div>
-            <div className='h-12 max-w-2xl mx-auto text-right mt-6'>
-                <button onClick={() => navigate("/")} className='rounded bg-slate-600 text-white px-6 py-2 font-semibold'>Back to home</button>
             </div>
         </>
     )
 }
 
-export default AddEmployee
+export default UpdateEmployee

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.apache.catalina.connector.Response;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -33,6 +35,28 @@ public class EmployeeController {
         this.employeeService = employeeService;
     }
 
+    @GetMapping("/employees")
+    public ResponseEntity<List<Employee>> getAllEmployees() {
+
+        List<Employee> sortedEmployees = employeeService.getAllEmployess();
+
+        sortedEmployees.sort((emp1, emp2) -> emp1.getFirstName().toLowerCase().compareTo  (emp2.getFirstName().toLowerCase()));
+
+        return ResponseEntity.status(HttpStatus.OK).body(sortedEmployees);
+    }
+
+    @GetMapping("/employee/{id}")
+    public ResponseEntity<Object> getEmployee(@PathVariable UUID id) {
+        Optional<Employee> employeeDB = employeeService.findById(id);
+
+        if(!employeeDB.isPresent()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Employee not found");
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body(employeeDB.get());
+    }
+
+
     @PostMapping("/addEmployee")
     public ResponseEntity<Object> saveEmployee(@RequestBody @Valid EmployeeDto employeeDto) {
         
@@ -47,15 +71,24 @@ public class EmployeeController {
         return ResponseEntity.status(HttpStatus.CREATED).body(employeeService.saveEmployee(employee));
     }
 
-    @GetMapping("/employees")
-    public ResponseEntity<List<Employee>> getAllEmployees() {
+    @PutMapping("/employee/{id}")
+    public ResponseEntity<Object> updateEmployee(@PathVariable UUID id, @RequestBody @Valid EmployeeDto employeeDto) {
+        Optional<Employee> employeeDB = employeeService.findById(id);
 
-        List<Employee> sortedEmployees = employeeService.getAllEmployess();
+        if(!employeeDB.isPresent()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Employee not found");
+        }
 
-        sortedEmployees.sort((emp1, emp2) -> emp1.getFirstName().toLowerCase().compareTo  (emp2.getFirstName().toLowerCase()));
+        Employee employee = employeeDB.get();
 
-        return ResponseEntity.status(HttpStatus.OK).body(sortedEmployees);
-    }
+        employee.setEmail(employeeDto.getEmail());
+        employee.setFirstName(employeeDto.getFirstName());
+        employee.setLastName(employeeDto.getLastName());
+
+        return ResponseEntity.status(HttpStatus.OK).body(employeeService.saveEmployee(employee));
+
+    } 
+
 
     @DeleteMapping("employees/{id}")
     public ResponseEntity<Object> deleteEmployee(@PathVariable UUID id) {
@@ -69,4 +102,6 @@ public class EmployeeController {
 
         return ResponseEntity.status(HttpStatus.OK).body("Employee removed successfully!");
     }
+
+
 }

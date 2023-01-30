@@ -5,10 +5,12 @@ import Employee from './Employee';
 
 function ListEmployee() {
 
+    //UseStates
     const navigate = useNavigate();
     const [employees, setEmployees] = useState([]);
     const [loading, setLoading] = useState(false);
 
+    //UseEffect
     useEffect(() => {
         const fetchData = async () => {
             setLoading(true);
@@ -25,6 +27,7 @@ function ListEmployee() {
         fetchData();
     }, []);
 
+    //Delete Employee
     const deleteEmployee = async (e, employeeId) => {
 
         e.preventDefault();

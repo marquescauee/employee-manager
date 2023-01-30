@@ -12,6 +12,14 @@ class EmployeeService {
         return axios.get(`${EMPLOYEE_API_BASE_URL}/employees`);
     }
 
+    getEmployee = (id) => {
+        return axios.get(`${EMPLOYEE_API_BASE_URL}/employee/${id}`);
+    }
+
+    updateEmployee = (id, employee) => {
+        return axios.put(`${EMPLOYEE_API_BASE_URL}/employee/${id}`, employee);
+    }
+
     deleteEmployee = (id) => {
         return axios.delete(`${EMPLOYEE_API_BASE_URL}/employees/${id}`);
     }
