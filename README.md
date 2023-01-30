@@ -22,20 +22,23 @@
   
   <h1 align=center> List of employees </h1>
   
+   ![ScreenShot](/images/list.png)
+
+  
   <h1 align=center> Create Employee </h1>
    
-  <p align=center>
-    <img src"images/add_employee.png" width="700">
-  </p>
+
+   ![ScreenShot](/images/add_employee.png)
+
   
  <h1 align=center> Employee created successfully </h1>
 
-<p align=center>
-    <img src"images/add_success.png" width="700">
-  </p>
+
+   ![ScreenShot](/images/add_success.png) 
+
   
  <h1 align=center> Wrong Credentials </h1>
   
-  <p align=center>
-    <img src"images/add_error.png" width="700">
-  </p>
+
+   ![ScreenShot](/images/add_error.png)
+
