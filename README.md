@@ -1,6 +1,6 @@
 # Employee Manager
 
-## Aplicação de gerenciamento de funcionários, integrando API em Spring com Front em React.
+### Sistema de gerenciamento de funcionários, integrando API em Spring com Front em React.
 
 ### Tecnologias Utilizadas:
   <ul>
@@ -16,7 +16,7 @@
         <li>React</li>
       </ul>
   <br>
-    <li>Database</li>
+    <li>Banco de Dados</li>
       <ul>
         <li>MySQL</li>
       </ul>
