@@ -16,6 +16,8 @@ public interface IEmployeeService {
 
     Optional<Employee> findById(UUID id);
 
+    Optional<Employee> findByEmail(String email);
+
     void deleteEmployee(UUID id);
     
 }
