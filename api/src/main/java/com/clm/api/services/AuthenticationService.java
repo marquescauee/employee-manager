@@ -23,18 +23,18 @@ public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
 
     public AuthenticationResponse register(RegisterRequest request) {
-//        Role role = Role.EMPLOYEE;
-//
-//        if(request.getRole().equals("ADMIN")) {
-//            role = Role.ADMIN;
-//        }
+        Role role = Role.EMPLOYEE;
+
+        if(request.getRole().equals("ADMIN")) {
+            role = Role.ADMIN;
+        }
 
         Employee employee = Employee.builder()
                             .firstName(request.getFirstName())
                             .lastName(request.getLastName())
                             .email(request.getEmail())
                             .password(passwordEncoder.encode(request.getPassword()))
-                            .role(Role.EMPLOYEE)
+                            .role(role)
                             .build();
 
         employeeRepository.save(employee);

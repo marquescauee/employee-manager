@@ -28,7 +28,7 @@ public class SecurityConfiguration {
             .disable()
             .authorizeHttpRequests()
             .requestMatchers(HttpMethod.POST, "/api/auth/**").permitAll()
-            .requestMatchers(HttpMethod.DELETE, "/api/employees/**").hasRole("ADMIN")
+            .requestMatchers(HttpMethod.DELETE, "/api/employees/**").hasRole("EMPLOYEE")
             .anyRequest()
             .authenticated()
             .and()

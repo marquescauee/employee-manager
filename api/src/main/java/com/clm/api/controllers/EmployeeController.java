@@ -92,8 +92,7 @@ public class EmployeeController {
 
         return ResponseEntity.status(HttpStatus.OK).body(employeeService.saveEmployee(employee));
 
-    } 
-
+    }
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> deleteEmployee(@PathVariable UUID id) {
         Optional<Employee> employeeDB = employeeService.findById(id);
