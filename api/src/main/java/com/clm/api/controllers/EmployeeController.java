@@ -4,9 +4,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import org.springframework.beans.BeanUtils;
+import com.clm.api.models.Role;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,17 +26,19 @@ import com.clm.api.services.IEmployeeService;
 import jakarta.validation.Valid;
 
 @CrossOrigin("http://localhost:3000")
+@RequestMapping("/api/employees")
 @RestController
-@RequestMapping("/api")
 public class EmployeeController {
     
     private final IEmployeeService employeeService;
+    private final PasswordEncoder passwordEncoder;
 
-    public EmployeeController(IEmployeeService employeeService) {
+    public EmployeeController(IEmployeeService employeeService, PasswordEncoder passwordEncoder) {
         this.employeeService = employeeService;
+        this.passwordEncoder = passwordEncoder;
     }
 
-    @GetMapping("/employees")
+    @GetMapping
     public ResponseEntity<List<Employee>> getAllEmployees() {
 
         List<Employee> sortedEmployees = employeeService.getAllEmployess();
@@ -44,7 +48,7 @@ public class EmployeeController {
         return ResponseEntity.status(HttpStatus.OK).body(sortedEmployees);
     }
 
-    @GetMapping("/employee/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Object> getEmployee(@PathVariable UUID id) {
         Optional<Employee> employeeDB = employeeService.findById(id);
 
@@ -56,21 +60,23 @@ public class EmployeeController {
     }
 
 
-    @PostMapping("/addEmployee")
-    public ResponseEntity<Object> saveEmployee(@RequestBody @Valid EmployeeDto employeeDto) {
+    @PostMapping
+    public ResponseEntity<Object> saveEmployee(@RequestBody @Valid Employee employee) {
         
-        if(employeeService.existsByEmail(employeeDto.getEmail())) {
+        if(employeeService.existsByEmail(employee.getEmail())) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Email has already been registered!");
         }
 
-        Employee employee = new Employee();
+        employee.setPassword(passwordEncoder.encode(employee.getPassword()));
+        employee.setRole(Role.EMPLOYEE);
 
-        BeanUtils.copyProperties(employeeDto, employee);
+//        Employee employee = new Employee();
+//        BeanUtils.copyProperties(employeeDto, employee);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(employeeService.saveEmployee(employee));
     }
 
-    @PutMapping("/employee/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<Object> updateEmployee(@PathVariable UUID id, @RequestBody @Valid EmployeeDto employeeDto) {
         Optional<Employee> employeeDB = employeeService.findById(id);
 
@@ -88,8 +94,7 @@ public class EmployeeController {
 
     } 
 
-
-    @DeleteMapping("employees/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Object> deleteEmployee(@PathVariable UUID id) {
         Optional<Employee> employeeDB = employeeService.findById(id);
 
