@@ -7,7 +7,7 @@
     <li>Back-End</li>
       <ul>
         <li>Java</li>
-        <li>Spring (WEB, JPA)</li>
+        <li>Spring (WEB, JPA, Security, JWT)</li>
       </ul>
   <br>
     <li>Front-End</li>
