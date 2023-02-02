@@ -4,10 +4,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import com.clm.api.models.Role;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -21,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.clm.api.dtos.EmployeeDto;
 import com.clm.api.models.Employee;
+import com.clm.api.models.Role;
 import com.clm.api.services.IEmployeeService;
 
 import jakarta.validation.Valid;
